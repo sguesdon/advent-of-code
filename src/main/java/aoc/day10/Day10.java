@@ -11,7 +11,7 @@ public class Day10 implements Day {
     public String part1(List<String> input) {
         int points = 0;
         for(String line : input) {
-            points += getScore(line);
+            points = getScore(line);
         }
         return String.valueOf(points);
     }
@@ -31,37 +31,28 @@ public class Day10 implements Day {
 
     private String removePart(String line) {
 
+        if(line.length() == 0) {
+            return line;
+        }
+
         int currentLen = line.length();
 
         for(EnumPatterns pattern : EnumPatterns.values()) {
-            line = removeSimplePatterns(pattern, line);
-            line = removeExternalPatterns(pattern, line);
+
+            line = line.replace(pattern.getOpenChar() + pattern.getCloseChar(), "");
+
+            if(line.substring(0).equals(pattern.getOpenChar()) && line.substring(line.length() - 1).equals(pattern.getCloseChar())) {
+                line = line.substring(1, line.length() - 2);
+            }
         }
 
         int afterReplaceLen = line.length();
 
-        if(currentLen == afterReplaceLen || line.length() == 0) {
+        if(currentLen == afterReplaceLen) {
             return line;
         }
 
         return this.removePart(line);
-    }
-
-    private String removeSimplePatterns(EnumPatterns pattern, String line) {
-        return line.replace(pattern.getOpenChar() + pattern.getCloseChar(), "");
-    }
-
-    private String removeExternalPatterns(EnumPatterns pattern, String line) {
-
-        if(line.isEmpty()) {
-            return line;
-        }
-
-        if(line.substring(0).equals(pattern.getOpenChar()) && line.substring(line.length() - 1).equals(pattern.getCloseChar())) {
-            return line.substring(1, line.length() - 2);
-        }
-
-        return "";
     }
 
     @Override

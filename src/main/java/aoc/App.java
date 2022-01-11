@@ -26,10 +26,13 @@ public class App {
     }
 
     private static List<String> loadInput(int day){
+
         String paddedDay = String.valueOf(day);
+
         if(day < 10) {
             paddedDay = "0" + day;
         }
+
         String fileName = "day" + paddedDay + ".txt";
 
         try(BufferedReader r = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName)))){
